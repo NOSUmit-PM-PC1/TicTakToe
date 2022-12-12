@@ -9,7 +9,7 @@ namespace TicTakToe
     class Program
     {
         static void showField(byte[,] mas)
-        {;
+        {
             for (int i = 0; i < mas. GetLength(0); i++)
             {
                 for (int j = 0; j < mas.GetLength(1); j++)
@@ -48,13 +48,15 @@ namespace TicTakToe
         {
             byte[,] field = new byte[3, 3];
             byte i, j;
+            byte player = 1; // ход крестиков
             showField(field);
             while (!isGameOver(field))
             {
                 if (isRightInput(out i, out j))
                 {
-                    field[i, j] = 1;
+                    field[i, j] = player;
                     showField(field);
+                    player = (byte)(player % 2 + 1); // переход хода к другому игроку
                 }
                 else
                 {
