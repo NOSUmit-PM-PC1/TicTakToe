@@ -8,6 +8,7 @@ namespace TicTakToe
 {
     class Program
     {
+        const byte SIZE = 3; // размер поля
         static void showField(byte[,] mas)
         {
             for (int i = 0; i < mas. GetLength(0); i++)
@@ -20,8 +21,35 @@ namespace TicTakToe
             }
         }
 
-        static bool isGameOver(byte[,] mas)
+        static bool isGameOver(byte[,] mas, byte player)
         {
+            // проверка по вертикалям и горизонталям
+            for (int j = 0; j < SIZE; j++)
+            {
+                int kStr = 0;
+                int kStlb = 0;
+                for (int i = 0; i < SIZE; i++)
+                {
+                    if (mas[j, i] == player) kStr++;
+                    if (mas[i, j] == player) kStlb++;
+                }
+                if (kStr == SIZE)
+                {
+                    Console.WriteLine(player); return true;
+                }
+                if (kStlb == SIZE) return true;
+            }
+            // проверка по диагонали
+            int kMainDiag = 0;
+            int kPobDiag = 0;
+            for (int i = 0; i < SIZE; i++)
+            {
+                if (mas[i, i] == player) kMainDiag++;
+                if (mas[i, SIZE - i - 1] == player) kPobDiag++;
+            }
+            if (kMainDiag == SIZE) return true;
+            if (kPobDiag == SIZE) return true;
+
             return false;
         }
 
@@ -44,19 +72,25 @@ namespace TicTakToe
                 return false;
             }
         }
+
         static void Main(string[] args)
         {
             byte[,] field = new byte[3, 3];
             byte i, j;
-            byte player = 1; // ход крестиков
+            byte player = 2; // ход крестиков
             showField(field);
-            while (!isGameOver(field))
+            while (!isGameOver(field, player))
             {
                 if (isRightInput(out i, out j))
                 {
-                    field[i, j] = player;
-                    showField(field);
-                    player = (byte)(player % 2 + 1); // переход хода к другому игроку
+                    if (field[i, j] == 0)
+                    {
+                        player = (byte)(player % 2 + 1); // переход хода к другому игроку
+                        field[i, j] = player;
+                        showField(field);
+                    }
+                    else
+                        Console.WriteLine("Поле занято");
                 }
                 else
                 {
