@@ -73,20 +73,24 @@ namespace TicTakToe
             }
         }
 
-        static void Main(string[] args)
+        static int Game() // 1 или 2 - победа игрока, 0 - ничья
         {
-            byte[,] field = new byte[3, 3];
+            byte[,] field = new byte[SIZE, SIZE];
             byte i, j;
+            int step = 0;
             byte player = 2; // ход крестиков
             showField(field);
             while (!isGameOver(field, player))
             {
+                if (step == SIZE * SIZE)
+                    return 0;
                 if (isRightInput(out i, out j))
                 {
                     if (field[i, j] == 0)
                     {
                         player = (byte)(player % 2 + 1); // переход хода к другому игроку
                         field[i, j] = player;
+                        step++;
                         showField(field);
                     }
                     else
@@ -97,6 +101,18 @@ namespace TicTakToe
                     Console.WriteLine("Плохие координаты");
                 }
             }
+            return player;
+        }
+
+        static void Main(string[] args)
+        {
+            int result = Game();
+            if (result == 0)
+                Console.WriteLine("Ничья");
+            else
+                Console.WriteLine("Победил ", result);
+
+
         }
     }
 }
