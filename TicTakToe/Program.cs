@@ -111,8 +111,6 @@ namespace TicTakToe
                 Console.WriteLine("Ничья");
             else
                 Console.WriteLine("Победил ", result);
-
-
         }
     }
 }
